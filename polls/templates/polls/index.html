@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+</head>
+<body>
+<h1>My Expenses: </h1>
+
+Date:<input type="text" id="datepicker" name="pub_date">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    flatpickr('#datepicker', {
+        dateFormat: 'Y-m-d',
+        enableTime: false,
+    });
+</script>
+</body>
+</html>
+
+<!--<p>All expenses:</p>-->
+<!--{% if latest_expense_list %}-->
+<!--    <ul>-->
+<!--    {% for expense in latest_expense_list %}-->
+<!--        <li><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></li>-->
+<!--    {% endfor %}-->
+<!--    </ul>-->
+<!--{% else %}-->
+<!--    <p>No expenses.</p>-->
+<!--{% endif %}-->
