@@ -5,25 +5,27 @@
 </head>
 <body>
 <h1>My Expenses: </h1>
-
-Date:<input type="text" id="datepicker" name="pub_date">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    flatpickr('#datepicker', {
-        dateFormat: 'Y-m-d',
-        enableTime: false,
-    });
-</script>
+<form action="{% url 'index' %}" method="GET">
+    <label for="datepicker">Date:</label>
+    <input type="text" id="datepicker" name="pub_date">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('#datepicker', {
+            dateFormat: 'Y-m-d',
+            enableTime: false,
+        });
+    </script>
+    <button type="submit">Filter</button>
+</form>
+<p>All expenses:</p>
+{% if latest_expense_list %}
+    <ul>
+        {% for expense in latest_expense_list %}
+            <li>{{ expense.name }} - {{ expense.amount }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No expenses.</p>
+{% endif %}
 </body>
 </html>
-
-<!--<p>All expenses:</p>-->
-<!--{% if latest_expense_list %}-->
-<!--    <ul>-->
-<!--    {% for expense in latest_expense_list %}-->
-<!--        <li><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></li>-->
-<!--    {% endfor %}-->
-<!--    </ul>-->
-<!--{% else %}-->
-<!--    <p>No expenses.</p>-->
-<!--{% endif %}-->
