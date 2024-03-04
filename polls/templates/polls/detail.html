@@ -6,7 +6,10 @@
 <body>
 <h1>Description: </h1>
 <ul>
-    <li>{{ expense.name }} - {{ expense.amount }} {{ expense.currency }} {{ expense.category }}</li>
+    <li>{{ expense.name }} - {{ expense.amount }} {{ expense.currency }} {{ expense.category }} {{ expense.pub_date }}</li>
+
 </ul>
+<a href="{% url 'polls:update' pk=expense.pk %}" class="button">Update</a>
+<a href="{% url 'polls:index' %}" class="button">Back</a>
 </body>
 </html>

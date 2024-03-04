@@ -3,6 +3,7 @@ from django.views.generic import ListView, DetailView, UpdateView
 from django.forms import ModelForm
 from .models import Expense
 import requests
+from django.urls import reverse_lazy
 class Index(ListView):
     model = Expense
     template_name = "polls/index.html"
@@ -36,7 +37,8 @@ class Update(UpdateView):
 
 
 
-        # def load_currencies():
+
+    # def load_currencies():
 #     url = "https://exchange-rates.abstractapi.com/v1/live"
 #     response = requests.request("GET", url)
 #     print(response.text)

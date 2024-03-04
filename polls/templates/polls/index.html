@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1>My Expenses: </h1>
-<form action="{% url 'index' %}" method="GET">
+<form action="{% url 'polls:index' %}" method="GET">
     <label for="datepicker">Date:</label>
     <input type="text" id="datepicker" name="pub_date">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -15,17 +15,19 @@
             enableTime: false,
         });
     </script>
-    <button type="submit">Filter</button>
+    <button type="submit">Submit</button>
 </form>
-<p>All expenses:</p>
 {% if latest_expense_list %}
     <ul>
         {% for expense in latest_expense_list %}
-            <li>{{ expense.name }} - {{ expense.amount }}</li>
+            <li><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></li>
         {% endfor %}
     </ul>
 {% else %}
     <p>No expenses.</p>
 {% endif %}
+<form action="{% url 'polls:index' %}" method="GET">
+  <input type="submit" value="Clean all">
+</form>
 </body>
 </html>
