@@ -1,5 +1,4 @@
-import json
-from django.views.generic import ListView, DetailView, UpdateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.forms import ModelForm
 from .models import Expense
 import requests
@@ -30,12 +29,19 @@ class Update(UpdateView):
     form_class = ExpenseModelForm
     template_name = 'polls/update.html'
 
+    def get_success_url(self):
+        return reverse_lazy('polls:detail', kwargs={'pk': self.object.pk})
 
+class Create(CreateView):
+    model = Expense
+    fields = ['category', 'name', 'pub_date', 'amount', 'currency']
+    template_name = 'polls/create.html'
+    success_url = reverse_lazy('polls:index')
 
-
-
-
-
+class Delete(DeleteView):
+    model = Expense
+    template_name = 'polls/delete.html'
+    success_url = reverse_lazy('polls:index')
 
 
     # def load_currencies():

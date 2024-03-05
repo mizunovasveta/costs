@@ -5,6 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-
+    <h1>Create a new expense</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update</button>
+    </form>
+<a href="{% url 'polls:index' %}">Back</a>
 </body>
 </html>

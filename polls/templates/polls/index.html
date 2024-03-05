@@ -1,10 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 70vh;
+            flex-direction: column;
+            font-size: 1.5em;
+        }
+    </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <h1>My Expenses: </h1>
+<p>Choose a date:</p>
 <form action="{% url 'polls:index' %}" method="GET">
     <label for="datepicker">Date:</label>
     <input type="text" id="datepicker" name="pub_date">
@@ -27,7 +38,8 @@
     <p>No expenses.</p>
 {% endif %}
 <form action="{% url 'polls:index' %}" method="GET">
-  <input type="submit" value="Clean all">
+<input type="submit" value="Clean all" name="clean">
 </form>
+<a href="{% url 'polls:create' %}">Create a new expense</a>
 </body>
 </html>

@@ -2,14 +2,44 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+        table {
+            border-collapse: none;
+            width: 100%;
+        }
+
+        th, td {
+            border: none;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
 <h1>Description: </h1>
-<ul>
-    <li>{{ expense.name }} - {{ expense.amount }} {{ expense.currency }} {{ expense.category }} {{ expense.pub_date }}</li>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Amount</th>
+        <th>Currency</th>
+        <th>Category</th>
+        <th>Date</th>
+    </tr>
+    <tr>
+        <td>{{ expense.name }}</td>
+        <td>{{ expense.amount }}</td>
+        <td>{{ expense.currency }}</td>
+        <td>{{ expense.category }}</td>
+        <td>{{ expense.pub_date }}</td>
+    </tr>
+</table>
 
-</ul>
 <a href="{% url 'polls:update' pk=expense.pk %}" class="button">Update</a>
+<a href="{% url 'polls:delete' pk=expense.pk %}" class="button">Delete</a>
 <a href="{% url 'polls:index' %}" class="button">Back</a>
 </body>
 </html>
