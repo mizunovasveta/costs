@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from .models import Expense
 import requests
 from django.urls import reverse_lazy
+from django.db.models import Sum
 class Index(ListView):
     model = Expense
     template_name = "polls/index.html"
@@ -10,10 +11,25 @@ class Index(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        pub_date = self.request.GET.get('pub_date')
-        if pub_date:
-            queryset = queryset.filter(pub_date=pub_date)
+        start_date = self.request.GET.get('start_date')
+        end_date = self.request.GET.get('end_date')
+        if start_date and end_date:
+            queryset = queryset.filter(pub_date__range=[start_date, end_date])
+        elif start_date:
+            queryset = queryset.filter(pub_date__range=[start_date, start_date])
+        elif end_date:
+            queryset = queryset.filter(pub_date__lte=end_date)
         return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        total_amount = self.get_queryset().aggregate(total_amount=Sum('amount'))['total_amount']
+        if total_amount is None:
+            total_amount = 0
+        context['total_amount'] = total_amount
+        context['start_date'] = self.request.GET.get('start_date')
+        context['end_date'] = self.request.GET.get('end_date')
+        return context
 
 class Detail(DetailView):
     model = Expense

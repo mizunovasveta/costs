@@ -8,26 +8,31 @@
             align-items: center;
             height: 70vh;
             flex-direction: column;
-            font-size: 1.5em;
+            font-size: 1em;
         }
     </style>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
 <h1>My Expenses: </h1>
-<p>Choose a date:</p>
 <form action="{% url 'polls:index' %}" method="GET">
-    <label for="datepicker">Date:</label>
-    <input type="text" id="datepicker" name="pub_date">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        flatpickr('#datepicker', {
-            dateFormat: 'Y-m-d',
-            enableTime: false,
-        });
-    </script>
+    <fieldset>
+        <legend>Date Range:</legend>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="{{ start_date }}">
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="{{ end_date }}">
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+        <script>
+            flatpickr('#datepicker', {
+                dateFormat: 'Y-m-d',
+                enableTime: false,
+            });
+        </script>
+        </fieldset>
     <button type="submit">Submit</button>
 </form>
+    <p>Total amount: {{ total_amount }}</p>
 {% if latest_expense_list %}
     <ul>
         {% for expense in latest_expense_list %}
