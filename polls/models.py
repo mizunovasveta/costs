@@ -3,7 +3,7 @@ from django.db import models
 CATEGORY_CHOICES = [
     ('markets', 'Markets'),
     ('pharmacy', 'Pharmacy'),
-    ('entertainment', 'Entertainment'),
+    ('entertaiCategorynment', 'Entertainment'),
     ('bookstore', 'Bookstore'),
     ('electronics and gadgets', 'Electronics and gadgets'),
     ('beauty', 'Beauty'),

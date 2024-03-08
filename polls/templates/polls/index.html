@@ -33,15 +33,29 @@
     <button type="submit">Submit</button>
 </form>
     <p>Total amount: {{ total_amount }}</p>
-{% if latest_expense_list %}
-    <ul>
-        {% for expense in latest_expense_list %}
-            <li><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>No expenses.</p>
-{% endif %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th><a href="?start_date={{ start_date }}&end_date={{ end_date }}&sort_by=pub_date">Sort by decrease date</a></th>
+        <th><a href="?start_date={{ start_date }}&end_date={{ end_date }}&sort_by">Sort by increase date</a></th>
+
+        <th><a href="?start_date={{ start_date }}&end_date={{ end_date }}&sort_by_amount=amount">Sort by decrease amount</a></th>
+        <th><a href="?start_date={{ start_date }}&end_date={{ end_date }}&sort_by_amount">Sort by increase amount</a></th>
+    </tr>
+    {% for expense in latest_expense_list %}
+    <tr>
+        <td><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></td>
+        <td>{{ expense.pub_date }}</td>
+        <td></td>
+        <td>{{ expense.amount }}</td>
+    </tr>
+    {% empty %}
+    <tr>
+        <td colspan="2">No expenses.</td>
+    </tr>
+    {% endfor %}
+</table>
+
 <form action="{% url 'polls:index' %}" method="GET">
 <input type="submit" value="Clean all" name="clean">
 </form>
