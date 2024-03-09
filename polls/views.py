@@ -20,13 +20,13 @@ class Index(ListView):
         elif end_date:
             queryset = queryset.filter(pub_date__lte=end_date)
         sort_by = self.request.GET.get('sort_by')
-        if sort_by:
-            queryset = queryset.order_by(sort_by)
+        if sort_by is not None:
+            queryset = queryset.order_by('pub_date')
             if sort_by == 'pub_date':
                 queryset = queryset.reverse()
         sort_by_amount = self.request.GET.get('sort_by_amount')
-        if sort_by_amount:
-            queryset = queryset.order_by(sort_by_amount)
+        if sort_by_amount is not None:
+            queryset = queryset.order_by('amount')
             if sort_by_amount == 'amount':
                 queryset = queryset.reverse()
         return queryset
