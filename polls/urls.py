@@ -8,4 +8,5 @@ urlpatterns = [
     path("<int:pk>/update/", views.Update.as_view(), name="update"),
     path("create/", views.Create.as_view(), name="create"),
     path("<int:pk>/delete/", views.Delete.as_view(), name="delete"),
+    path("create_category/", views.Create_category.as_view(), name="create_category"),
 ]

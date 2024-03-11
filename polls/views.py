@@ -1,6 +1,6 @@
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.forms import ModelForm
-from .models import Expense
+from .models import Expense, Category
 import requests
 from django.urls import reverse_lazy
 from django.db.models import Sum
@@ -68,6 +68,13 @@ class Delete(DeleteView):
     model = Expense
     template_name = 'polls/delete.html'
     success_url = reverse_lazy('polls:index')
+
+class Create_category(CreateView):
+    model = Category
+    fields = ['name']
+    template_name = 'polls/create_category.html'
+    success_url = reverse_lazy('polls:index')
+
 
 
     # def load_currencies():

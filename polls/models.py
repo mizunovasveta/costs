@@ -1,22 +1,27 @@
 from django.db import models
 
-CATEGORY_CHOICES = [
-    ('markets', 'Markets'),
-    ('pharmacy', 'Pharmacy'),
-    ('entertaiCategorynment', 'Entertainment'),
-    ('bookstore', 'Bookstore'),
-    ('electronics and gadgets', 'Electronics and gadgets'),
-    ('beauty', 'Beauty'),
-    ('wellness', 'Wellness')
-]
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    # CATEGORY_CHOICES = [
+    #     ('markets', 'Markets'),
+    #     ('pharmacy', 'Pharmacy'),
+    #     ('entertainment', 'Entertainment'),
+    #     ('bookstore', 'Bookstore'),
+    #     ('electronics and gadgets', 'Electronics and gadgets'),
+    #     ('appliances', 'Appliances'),
+    #     ('beauty', 'Beauty'),
+    #     ('wellness', 'Wellness')
+    # ]
+    def __str__(self):
+        return self.name
 
 class Expense(models.Model):
-    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='-')
     name = models.CharField(max_length=200)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
     pub_date = models.DateField("date published")
     amount = models.FloatField(default=0.00)
     currency = models.CharField(max_length=3, default='USD')
 
-
-
-
+    def __str__(self):
+        return self.name
