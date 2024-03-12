@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Description: </h1>
+<table>
+    <tr>
+        <td>{{ category.name }}</td>
+    </tr>
+</table>
+<a href="{% url 'polls:update_category' pk=category.pk %}" class="button">Update</a>
+<a href="{% url 'polls:delete_category' pk=category.pk %}" class="button">Delete</a>
+<a href="{% url 'polls:index_category' %}" class="button">Back</a>
+</body>
+</html>
