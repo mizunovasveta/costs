@@ -46,7 +46,6 @@
     <tr>
         <td><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></td>
         <td>{{ expense.pub_date }}</td>
-        <td></td>
         <td>{{ expense.amount }}</td>
     </tr>
     {% empty %}
@@ -60,6 +59,6 @@
 <input type="submit" value="Clean all" name="clean">
 </form>
 <a href="{% url 'polls:create' %}">Create a new expense</a>
-<a href="{% url 'polls:create_category' %}">Create a new category</a>
+<a href="{% url 'polls:index_category' %}">Show all categories</a>
 </body>
 </html>

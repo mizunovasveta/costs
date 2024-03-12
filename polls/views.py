@@ -1,7 +1,6 @@
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from django.forms import ModelForm
+from .forms import ExpenseForm
 from .models import Expense, Category
-import requests
 from django.urls import reverse_lazy
 from django.db.models import Sum
 class Index(ListView):
@@ -45,14 +44,8 @@ class Detail(DetailView):
     model = Expense
     template_name = "polls/detail.html"
 
-class ExpenseModelForm(ModelForm):
-    class Meta:
-        model = Expense
-        fields = ['category', 'name', 'pub_date', 'amount', 'currency']
-
 class Update(UpdateView):
     model = Expense
-    form_class = ExpenseModelForm
     template_name = 'polls/update.html'
 
     def get_success_url(self):
@@ -60,7 +53,7 @@ class Update(UpdateView):
 
 class Create(CreateView):
     model = Expense
-    fields = ['category', 'name', 'pub_date', 'amount', 'currency']
+    form_class = ExpenseForm
     template_name = 'polls/create.html'
     success_url = reverse_lazy('polls:index')
 
@@ -73,8 +66,27 @@ class Create_category(CreateView):
     model = Category
     fields = ['name']
     template_name = 'polls/create_category.html'
-    success_url = reverse_lazy('polls:index')
+    success_url = reverse_lazy('polls:index_category')
 
+class Delete_category(DeleteView):
+    model = Category
+    template_name = 'polls/delete_category.html'
+    success_url = reverse_lazy('polls:index_category')
+
+class Update_category(UpdateView):
+    model = Category
+    fields = ['name']
+    template_name = 'polls/update_category.html'
+    success_url = reverse_lazy('polls:index_category')
+
+class Index_category(ListView):
+    model = Category
+    template_name = "polls/index_category.html"
+    context_object_name = "category_list"
+
+class Detail_category(DetailView):
+    model = Category
+    template_name = "polls/detail_category.html"
 
 
     # def load_currencies():

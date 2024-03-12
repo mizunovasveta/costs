@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
     <h1>Create a new expense</h1>
@@ -11,6 +12,13 @@
         {{ form.as_p }}
         <button type="submit">Create</button>
     </form>
-<a href="{% url 'polls:index' %}">Back</a>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('#datepicker', {
+            dateFormat: 'Y-m-d',
+            enableTime: false,
+        });
+    </script>
+    <a href="{% url 'polls:index' %}">Back</a>
 </body>
 </html>
