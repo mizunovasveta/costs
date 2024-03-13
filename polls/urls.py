@@ -13,4 +13,5 @@ urlpatterns = [
     path("<int:pk>/delete_category/", views.Delete_category.as_view(), name="delete_category"),
     path("index_category/", views.Index_category.as_view(), name="index_category"),
     path("<int:pk>/detail_category/", views.Detail_category.as_view(), name="detail_category"),
+    path("create_currency/", views.Create_currency.as_view(), name="create_currency"),
 ]

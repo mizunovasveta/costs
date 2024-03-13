@@ -1,8 +1,10 @@
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from .forms import ExpenseForm
-from .models import Expense, Category
+from .forms import ExpenseForm, ExpenseFilterForm
+from .models import Expense, Category, Currency
 from django.urls import reverse_lazy
 from django.db.models import Sum
+
+
 class Index(ListView):
     model = Expense
     template_name = "polls/index.html"
@@ -10,34 +12,32 @@ class Index(ListView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        start_date = self.request.GET.get('start_date')
-        end_date = self.request.GET.get('end_date')
-        if start_date and end_date:
-            queryset = queryset.filter(pub_date__range=[start_date, end_date])
-        elif start_date:
-            queryset = queryset.filter(pub_date__range=[start_date, start_date])
-        elif end_date:
-            queryset = queryset.filter(pub_date__lte=end_date)
-        sort_by = self.request.GET.get('sort_by')
-        if sort_by is not None:
-            queryset = queryset.order_by('pub_date')
-            if sort_by == 'pub_date':
-                queryset = queryset.reverse()
-        sort_by_amount = self.request.GET.get('sort_by_amount')
-        if sort_by_amount is not None:
-            queryset = queryset.order_by('amount')
-            if sort_by_amount == 'amount':
-                queryset = queryset.reverse()
+        form = ExpenseFilterForm(self.request.GET)
+
+        if form.is_valid():
+            start_date = form.cleaned_data.get('start_date')
+            end_date = form.cleaned_data.get('end_date')
+            sort_by = form.cleaned_data.get('sort_by')
+
+            if start_date and end_date:
+                queryset = queryset.filter(pub_date__range=[start_date, end_date])
+            elif start_date:
+                queryset = queryset.filter(pub_date__gte=start_date)
+            elif end_date:
+                queryset = queryset.filter(pub_date__lte=end_date)
+
+            if sort_by:
+                queryset = queryset.order_by(sort_by)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        total_amount = self.get_queryset().aggregate(total_amount=Sum('amount'))['total_amount']
-        if total_amount is None:
-            total_amount = 0
-        context['total_amount'] = total_amount
-        context['start_date'] = self.request.GET.get('start_date')
-        context['end_date'] = self.request.GET.get('end_date')
+        queryset = self.get_queryset()
+        total_amount = queryset.aggregate(total_amount=Sum('amount'))['total_amount'] or 0
+        context.update({
+            'total_amount': total_amount,
+            'filter_form': ExpenseFilterForm(self.request.GET),
+        })
         return context
 
 class Detail(DetailView):
@@ -87,6 +87,13 @@ class Index_category(ListView):
 class Detail_category(DetailView):
     model = Category
     template_name = "polls/detail_category.html"
+
+class Create_currency(CreateView):
+    model = Currency
+    fields = ['name']
+    template_name = 'polls/create_currency.html'
+    success_url = reverse_lazy('polls:index')
+
 
 
     # def load_currencies():
