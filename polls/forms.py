@@ -16,9 +16,6 @@ class ExpenseFilterForm(forms.Form):
         ('-category', 'Category (Descending)'),
     ], required=False)
 
-
-
-
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense

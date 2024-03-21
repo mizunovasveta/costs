@@ -3,7 +3,8 @@ from .forms import ExpenseForm, ExpenseFilterForm
 from .models import Expense, Category, Currency
 from django.urls import reverse_lazy
 from django.db.models import Sum
-
+from .utils import load_currencies
+from django.http import HttpResponse
 
 class Index(ListView):
     model = Expense
@@ -39,6 +40,10 @@ class Index(ListView):
             'filter_form': ExpenseFilterForm(self.request.GET),
         })
         return context
+
+def update_currencies(request):
+    load_currencies()
+    return HttpResponse("Currency updated successfully.")
 
 class Detail(DetailView):
     model = Expense
@@ -93,12 +98,3 @@ class Create_currency(CreateView):
     fields = ['name']
     template_name = 'polls/create_currency.html'
     success_url = reverse_lazy('polls:index')
-
-
-
-    # def load_currencies():
-#     url = "https://exchange-rates.abstractapi.com/v1/live"
-#     response = requests.request("GET", url)
-#     print(response.text)
-#     data = json.loads(response.text)
-#     data["exchange_rates"].keys()
