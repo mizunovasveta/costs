@@ -5,6 +5,9 @@ from django.urls import reverse_lazy
 from django.db.models import Sum
 from .utils import load_currencies
 from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
+from .forms import SignUpForm
 
 class Index(ListView):
     model = Expense
@@ -44,6 +47,17 @@ class Index(ListView):
 def update_currencies(request):
     load_currencies()
     return HttpResponse("Currency updated successfully.")
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('polls/index.html')
+    else:
+        form = SignUpForm()
+    return render(request, 'polls/signup.html', {'form': form})
 
 class Detail(DetailView):
     model = Expense
