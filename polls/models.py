@@ -5,12 +5,10 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-
 class Currency(models.Model):
     name = models.CharField(max_length=3, default='USD')
     def __str__(self):
         return self.name
-
 
 class Expense(models.Model):
     name = models.CharField(max_length=200)
