@@ -17,6 +17,12 @@
     <div style="position: fixed; top: 0; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
         <a href="{% url 'polls:signup' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Sign up</a>
     </div>
+    <div style="position: fixed; top: 40px; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <a href="{% url 'polls:login' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Log In</a>
+    </div>
+        <div style="position: fixed; top: 80px; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <a href="{% url 'polls:user_dashboard' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">{{ user.username }}</a>
+    </div>
 <h1>My Expenses: </h1>
 <form method="GET">
     <fieldset>

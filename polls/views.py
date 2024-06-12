@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
-from .forms import ExpenseForm, ExpenseFilterForm
+from .forms import ExpenseForm, ExpenseFilterForm, SignUpForm
 from .models import Expense, Category, Currency
 from django.urls import reverse_lazy
 from django.db.models import Sum
@@ -7,7 +7,10 @@ from .utils import load_currencies
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
-from .forms import SignUpForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.generic import TemplateView
+
 
 class Index(ListView):
     model = Expense
@@ -54,10 +57,29 @@ def signup_view(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('polls:index')
+            return redirect('polls:user_dashboard')
     else:
         form = SignUpForm()
     return render(request, 'polls/signup.html', {'form': form})
+
+def user_login(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('polls:user_dashboard')
+            else:
+                form.add_error(None, 'Invalid username or password')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'polls/login.html', {'form': form})
+
+class UserDashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'polls/user_dashboard.html'
 
 class Detail(DetailView):
     model = Expense
