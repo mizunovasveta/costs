@@ -18,7 +18,7 @@ class Index(ListView):
     context_object_name = "latest_expense_list"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().filter(user=self.request.user)
         form = ExpenseFilterForm(self.request.GET)
 
         if form.is_valid():
@@ -97,6 +97,10 @@ class Create(CreateView):
     form_class = ExpenseForm
     template_name = 'polls/create.html'
     success_url = reverse_lazy('polls:index')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 class Delete(DeleteView):
     model = Expense

@@ -14,57 +14,60 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 <body>
+<h1>My Expenses: </h1>
+{% if user.is_authenticated %}
+    <div style="position: fixed; top: 0px; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <a href="{% url 'polls:user_dashboard' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">{{ user.username }}</a>
+    </div>
+    <form method="GET">
+        <fieldset>
+            <legend>Date Range:</legend>
+            {{ filter_form.as_p }}
+            <button type="submit">Apply</button>
+            <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+            <script>
+                flatpickr('#datepicker', {
+                    dateFormat: 'Y-m-d',
+                    enableTime: false,
+                });
+            </script>
+            </fieldset>
+    </form>
+        <p>Total amount: {{ total_amount }}</p>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Amount</th>
+            <th>Category</th>
+        </tr>
+        {% for expense in latest_expense_list %}
+        <tr>
+            <td><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></td>
+            <td>{{ expense.pub_date }}</td>
+            <td>{{ expense.amount }}</td>
+            <td>{{ expense.category }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="2">No expenses.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <form action="{% url 'polls:index' %}" method="GET">
+    <input type="submit" value="Clean all" name="clean">
+    </form>
+    <a href="{% url 'polls:create' %}">Create a new expense</a>
+    <a href="{% url 'polls:create_currency' %}">Create a new currency</a>
+    <a href="{% url 'polls:index_category' %}">Show all categories</a>
+{% else %}
     <div style="position: fixed; top: 0; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
         <a href="{% url 'polls:signup' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Sign up</a>
     </div>
     <div style="position: fixed; top: 40px; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
         <a href="{% url 'polls:login' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">Log In</a>
     </div>
-        <div style="position: fixed; top: 80px; right: 0; background-color: #f8f9fa; padding: 10px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
-        <a href="{% url 'polls:user_dashboard' %}" style="text-decoration: none; color: #007bff; font-size: 18px;">{{ user.username }}</a>
-    </div>
-<h1>My Expenses: </h1>
-<form method="GET">
-    <fieldset>
-        <legend>Date Range:</legend>
-        {{ filter_form.as_p }}
-        <button type="submit">Apply</button>
-        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-        <script>
-            flatpickr('#datepicker', {
-                dateFormat: 'Y-m-d',
-                enableTime: false,
-            });
-        </script>
-        </fieldset>
-</form>
-    <p>Total amount: {{ total_amount }}</p>
-<table>
-    <tr>
-        <th>Name</th>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Category</th>
-    </tr>
-    {% for expense in latest_expense_list %}
-    <tr>
-        <td><a href="{% url 'polls:detail' expense.id %}">{{ expense.name }}</a></td>
-        <td>{{ expense.pub_date }}</td>
-        <td>{{ expense.amount }}</td>
-        <td>{{ expense.category }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-        <td colspan="2">No expenses.</td>
-    </tr>
-    {% endfor %}
-</table>
-
-<form action="{% url 'polls:index' %}" method="GET">
-<input type="submit" value="Clean all" name="clean">
-</form>
-<a href="{% url 'polls:create' %}">Create a new expense</a>
-<a href="{% url 'polls:create_currency' %}">Create a new currency</a>
-<a href="{% url 'polls:index_category' %}">Show all categories</a>
+{% endif %}
 </body>
 </html>

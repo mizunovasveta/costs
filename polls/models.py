@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 class Category(models.Model):
@@ -11,6 +12,7 @@ class Currency(models.Model):
         return self.name
 
 class Expense(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     pub_date = models.DateField("date published")
