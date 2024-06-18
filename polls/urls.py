@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
-from .views import update_currencies,signup_view,user_login
+from .views import update_currencies,signup_view
+from django.contrib.auth import views as auth_views
 
 app_name = "polls"
 urlpatterns = [
@@ -17,7 +18,7 @@ urlpatterns = [
     path("create_currency/", views.Create_currency.as_view(), name="create_currency"),
     path('update-currencies/', update_currencies, name='update-currencies'),
     path('signup/', signup_view, name='signup'),
-    path('login/', user_login, name='login'),
-    # path('logout/', LogoutView.as_view(), name='logout'),
+    path('login/', auth_views.LoginView.as_view(template_name='polls/login.html'), name='login'),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("dashboard/", views.UserDashboardView.as_view(), name="user_dashboard"),
 ]

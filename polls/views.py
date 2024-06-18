@@ -16,8 +16,12 @@ class Index(ListView):
     model = Expense
     template_name = "polls/index.html"
     context_object_name = "latest_expense_list"
+    login_url = '/polls/login/'
 
     def get_queryset(self):
+        if not self.request.user.is_authenticated:
+            return Expense.objects.none()
+
         queryset = super().get_queryset().filter(user=self.request.user)
         form = ExpenseFilterForm(self.request.GET)
 
@@ -61,22 +65,6 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'polls/signup.html', {'form': form})
-
-def user_login(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(request, data=request.POST)
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('polls:user_dashboard')
-            else:
-                form.add_error(None, 'Invalid username or password')
-    else:
-        form = AuthenticationForm()
-    return render(request, 'polls/login.html', {'form': form})
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'polls/user_dashboard.html'
