@@ -6,8 +6,8 @@ from django.db.models import Sum
 from .utils import load_currencies
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
 
@@ -65,6 +65,19 @@ def signup_view(request):
     else:
         form = SignUpForm()
     return render(request, 'polls/signup.html', {'form': form})
+
+
+class UserDeleteView(LoginRequiredMixin, DeleteView):
+    model = User
+    template_name = 'polls/user_delete.html'
+    success_url = reverse_lazy('polls:index')
+
+    def get_object(self):
+        return self.request.user
+
+    def form_valid(self, form):
+        logout(self.request)
+        return super().form_valid(form)
 
 class UserDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'polls/user_dashboard.html'
