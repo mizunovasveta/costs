@@ -10,7 +10,16 @@ from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import TemplateView
+from rest_framework import generics
+from .serializers import ExpenseSerializer
 
+class ExpenseListCreate(generics.ListCreateAPIView):
+    queryset = Expense.objects.all()
+    serializer_class = ExpenseSerializer
+
+class ExpenseRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Expense.objects.all()
+    serializer_class = ExpenseSerializer
 
 class Index(ListView):
     model = Expense
