@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-from .views import update_currencies,signup_view, UserDeleteView
+from .views import update_currencies,signup_view, UserDeleteView, ExpenseListCreate,ExpenseRetrieveUpdateDestroy
 from django.contrib.auth import views as auth_views
 
 app_name = "polls"
@@ -22,4 +22,6 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("dashboard/", views.UserDashboardView.as_view(), name="user_dashboard"),
     path('delete_account/', UserDeleteView.as_view(), name='delete_account'),
+    path('api/expenses/', ExpenseListCreate.as_view(), name='expense-list-create'),
+    path('api/expenses/<int:pk>/', ExpenseRetrieveUpdateDestroy.as_view(), name='expense-retrieve-update-destroy'),
 ]
