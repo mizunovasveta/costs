@@ -60,10 +60,6 @@ class Index(ListView):
         })
         return context
 
-def update_currencies(request):
-    load_currencies()
-    return HttpResponse("Currency updated successfully.")
-
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
