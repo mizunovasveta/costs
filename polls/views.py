@@ -3,8 +3,6 @@ from .forms import ExpenseForm, ExpenseFilterForm, SignUpForm
 from .models import Expense, Category, Currency
 from django.urls import reverse_lazy
 from django.db.models import Sum
-from .utils import load_currencies
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
